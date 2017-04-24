@@ -34,11 +34,11 @@ public class MyBot{
 		return cb2;
 	}
 	
-	static void watson() throws TwitterException{
+	static void FindSomeone() throws TwitterException{
 		ConfigurationBuilder cb2 = config2();
 		TwitterFactory tf = new TwitterFactory(cb2.build());
 		Twitter twitter = tf.getInstance();
-		 Query q2 = new Query("@PrisonPlanet");
+		 Query q2 = new Query("@...."); //Add a search query here
 	     QueryResult res = twitter.search(q2);
 	     Status watson = res.getTweets().get(0); 
 	     StatusUpdate statUpdate = new StatusUpdate(watson.getText());
@@ -54,10 +54,10 @@ public class MyBot{
     	TwitterFactory tf = new TwitterFactory(cb2.build());
     	Twitter twitter = tf.getInstance();
     	
-    // twitter.updateStatus("yo, bitches. New account and I am a bot");
+    // twitter.updateStatus("Hello World! New account and I am a bot");
     	int count = 0;
     	while (true){
-		     Query q = new Query("Trump");
+		     Query q = new Query("Politics");
 		     QueryResult result = twitter.search(q);
 		     int x = (int) (Math.random() * 14);
 		     Status tweetResult = result.getTweets().get(x);
@@ -66,20 +66,19 @@ public class MyBot{
 		     statusUpdate.inReplyToStatusId(tweetResult.getId());
 		     Status status = twitter.updateStatus(statusUpdate); 
 		     count++;
-		    // watson();
-		     Query q2 = new Query("@PrisonPlanet");
+		    // FindSomeone();
+		     Query q2 = new Query("@P...."); //Another search query field
 		     QueryResult res = twitter.search(q2);
 		     Status watson = res.getTweets().get(0);
-		     StatusUpdate statUpdate = new StatusUpdate(watson.getText());
-		     //StatusUpdate staUp = new StatusUpdate(watson.getRetweetedStatus().getText()); //SHOULD DELETE THIS IF IT DOESN'T WORK
+		     StatusUpdate statUpdate = new StatusUpdate(FindSomeone.getText());
 		     Status stat = twitter.updateStatus(statUpdate);
 		     System.out.println(statUpdate);
 		      //send a tweet
-		     //   Status status = tf.updateStatus("hello world");
+		     // Status status = tf.updateStatus("hello world");
 		     LocalDateTime currentTime = LocalDateTime.now(); 
 		        //print a message so we know when it finishes
 		     System.out.println("[" + currentTime + "]"+ "Done tweet #" + count + " to post number " + x +". Sleeping");
-		     Thread.sleep(1000*60*30);
+		     Thread.sleep(1000*60*30); //Sleeps for 30 minutes before repeating process.
     }
     }
 }
