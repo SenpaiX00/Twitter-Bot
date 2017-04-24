@@ -1,0 +1,85 @@
+
+import java.time.LocalDateTime;
+
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Status;
+import twitter4j.StatusUpdate;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
+
+public class MyBot{
+	//access the twitter API using your twitter4j.properties file
+	static ConfigurationBuilder config1(){
+		ConfigurationBuilder cb = new ConfigurationBuilder();
+    	cb.setDebugEnabled(true)
+    	  .setOAuthConsumerKey("XaQ7WHvI9a6hnLQS8WrKiJ1Iz")
+    	  .setOAuthConsumerSecret("2igX4rmeYJcbafGzAGNCNI7oQLw9m54owkV7Pu8QisRmYUOlB7")
+    	  .setOAuthAccessToken("243467550-q8Yqr8siQRsDlUGQzyi2yTU5iuwLgZofMJAASKNz")
+    	  .setOAuthAccessTokenSecret("Vzk8Sm6bw1Zh1xHDnf6Bx34Poi8ney60lbtyLtSdYXIGs");
+		return cb;
+		
+	}
+	
+	static ConfigurationBuilder config2(){
+		
+	    ConfigurationBuilder cb2 = new ConfigurationBuilder();
+		cb2.setDebugEnabled(true)
+	  	  .setOAuthConsumerKey("YghUtU1SVrPsi5LGuivmthUT7")
+	  	  .setOAuthConsumerSecret("2FOT4sj35Zcck9ZLYcq4Cs2qdK6dQtRtrN8wwvQkGRsInOYyQO")
+	  	  .setOAuthAccessToken("243467550-4z1nhnf4NvWAUyC975sgm9Tv0o49QJ5vKwAeZ4UT")
+	  	  .setOAuthAccessTokenSecret("RfQbnTDgy00xUUf7lcLkonqUGia1Kyz69qdhjwKzydRYe");
+		return cb2;
+	}
+	
+	static void watson() throws TwitterException{
+		ConfigurationBuilder cb2 = config2();
+		TwitterFactory tf = new TwitterFactory(cb2.build());
+		Twitter twitter = tf.getInstance();
+		 Query q2 = new Query("@PrisonPlanet");
+	     QueryResult res = twitter.search(q2);
+	     Status watson = res.getTweets().get(0); 
+	     StatusUpdate statUpdate = new StatusUpdate(watson.getText());
+	     Status stat = twitter.updateStatus(statUpdate);
+	}
+	
+	
+    //if something goes wrong, we might see a TwitterException
+    public static void main(String... args) throws TwitterException, InterruptedException{
+    	ConfigurationBuilder cb = config1();
+    	ConfigurationBuilder cb2 = config2();
+    	
+    	TwitterFactory tf = new TwitterFactory(cb2.build());
+    	Twitter twitter = tf.getInstance();
+    	
+    // twitter.updateStatus("yo, bitches. New account and I am a bot");
+    	int count = 0;
+    	while (true){
+		     Query q = new Query("Trump");
+		     QueryResult result = twitter.search(q);
+		     int x = (int) (Math.random() * 14);
+		     Status tweetResult = result.getTweets().get(x);
+		     System.out.println(result.getTweets().stream().count());
+		     StatusUpdate statusUpdate = new StatusUpdate("@" + tweetResult.getUser().getScreenName() + " Did #theSwampDrainTrump");
+		     statusUpdate.inReplyToStatusId(tweetResult.getId());
+		     Status status = twitter.updateStatus(statusUpdate); 
+		     count++;
+		    // watson();
+		     Query q2 = new Query("@PrisonPlanet");
+		     QueryResult res = twitter.search(q2);
+		     Status watson = res.getTweets().get(0);
+		     StatusUpdate statUpdate = new StatusUpdate(watson.getText());
+		     //StatusUpdate staUp = new StatusUpdate(watson.getRetweetedStatus().getText()); //SHOULD DELETE THIS IF IT DOESN'T WORK
+		     Status stat = twitter.updateStatus(statUpdate);
+		     System.out.println(statUpdate);
+		      //send a tweet
+		     //   Status status = tf.updateStatus("hello world");
+		     LocalDateTime currentTime = LocalDateTime.now(); 
+		        //print a message so we know when it finishes
+		     System.out.println("[" + currentTime + "]"+ "Done tweet #" + count + " to post number " + x +". Sleeping");
+		     Thread.sleep(1000*60*30);
+    }
+    }
+}
