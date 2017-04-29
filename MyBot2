@@ -1,4 +1,4 @@
-/* I have done my best to ensure allexceptions have been handled, in case posts are multiple, etc.
+/* I have done my best to ensure all exceptions have been handled, in case posts are multiple, etc.
  * If you find that an exception has not been handled, please flag and feel free to suggest improvements.
  * This is intended as a guide to those who want to develop a Twitter bot and are unfamiliar the the Twitter4J java API
  */
