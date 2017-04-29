@@ -1,6 +1,10 @@
+/* I have done my best to ensure allexceptions have been handled, in case posts are multiple, etc.
+ * If you find that an exception has not been handled, please flag and feel free to suggest improvements.
+ * This is intended as a guide to those who want to develop a Twitter bot and are unfamiliar the the Twitter4J java API
+ */
+
 
 import java.time.LocalDateTime;
-
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
@@ -15,10 +19,10 @@ public class MyBot{
 	static ConfigurationBuilder config1(){
 		ConfigurationBuilder cb = new ConfigurationBuilder();
     	cb.setDebugEnabled(true)
-    	  .setOAuthConsumerKey("XaQ7WHvI9a6hnLQS8WrKiJ1Iz")
-    	  .setOAuthConsumerSecret("2igX4rmeYJcbafGzAGNCNI7oQLw9m54owkV7Pu8QisRmYUOlB7")
-    	  .setOAuthAccessToken("243467550-q8Yqr8siQRsDlUGQzyi2yTU5iuwLgZofMJAASKNz")
-    	  .setOAuthAccessTokenSecret("Vzk8Sm6bw1Zh1xHDnf6Bx34Poi8ney60lbtyLtSdYXIGs");
+    	  .setOAuthConsumerKey("ENTER HERE")
+    	  .setOAuthConsumerSecret("ENTER HERE")
+    	  .setOAuthAccessToken("ENTER HERE")
+    	  .setOAuthAccessTokenSecret("ENTER HERE");
 		return cb;
 		
 	}
@@ -27,23 +31,87 @@ public class MyBot{
 		
 	    ConfigurationBuilder cb2 = new ConfigurationBuilder();
 		cb2.setDebugEnabled(true)
-	  	  .setOAuthConsumerKey("YghUtU1SVrPsi5LGuivmthUT7")
-	  	  .setOAuthConsumerSecret("2FOT4sj35Zcck9ZLYcq4Cs2qdK6dQtRtrN8wwvQkGRsInOYyQO")
-	  	  .setOAuthAccessToken("243467550-4z1nhnf4NvWAUyC975sgm9Tv0o49QJ5vKwAeZ4UT")
-	  	  .setOAuthAccessTokenSecret("RfQbnTDgy00xUUf7lcLkonqUGia1Kyz69qdhjwKzydRYe");
+	  	  .setOAuthConsumerKey("ENTER HERE")
+	  	  .setOAuthConsumerSecret("ENTER HERE")
+	  	  .setOAuthAccessToken("ENTER HERE")
+	  	  .setOAuthAccessTokenSecret("ENTER HERE");
 		return cb2;
 	}
 	
-	static void FindSomeone() throws TwitterException{
+	
+	static void wikiToday() throws TwitterException{
 		ConfigurationBuilder cb2 = config2();
 		TwitterFactory tf = new TwitterFactory(cb2.build());
 		Twitter twitter = tf.getInstance();
-		 Query q2 = new Query("@...."); //Add a search query here
-	     QueryResult res = twitter.search(q2);
-	     Status watson = res.getTweets().get(0); 
-	     StatusUpdate statUpdate = new StatusUpdate(watson.getText());
-	     Status stat = twitter.updateStatus(statUpdate);
+		int random = (int) (Math.random() * 5);
+		String WikiLeaksToday = "WikiLeaksToday";
+		 String text2 =twitter.getUserTimeline(WikiLeaksToday).get(random).getText();
+		 try{
+			 Status stat = twitter.updateStatus(text2);
+		 } catch(Exception f){
+			 f.printStackTrace();
+			 System.out.println("Status is a duplicate, but will "
+	 			 		+ "attempt later");
+		 }
 	}
+	/**This method allows me access the twitter feed
+	 * of a particular user, and then retweet their
+	 * posts in the form of a retweet. 
+	 * @throws TwitterException
+	 */
+	static void repostUserTweet() throws TwitterException{
+		ConfigurationBuilder cb2 = config2();
+		TwitterFactory tf = new TwitterFactory(cb2.build());
+		Twitter twitter = tf.getInstance();
+	    String user = "ENTER USER NAME HERE"; //This should be in the form of their @whatever name, without the @
+ 		int random = (int) (Math.random() * 5);
+ 		String text = twitter.getUserTimeline(user).get(random).getText(); //Allows you to pick a random post from their recent timeline of posts (this will include replies, so be warned)
+ 		System.out.println(text);
+ 		try{
+ 		StatusUpdate statusUpdate = new StatusUpdate(text);    	
+	        Status status = twitter.updateStatus(statusUpdate); 
+ 		} catch (Exception e){
+ 			e.printStackTrace();
+ 			 System.out.println("Status is a duplicate, but will "
+ 			 		+ "attempt later");
+ 		}
+ 		 
+		}
+
+	
+	
+	static void createANewTweetFromArray() throws TwitterException{
+		ConfigurationBuilder cb2 = config2();
+		TwitterFactory tf = new TwitterFactory(cb2.build());
+		Twitter twitter = tf.getInstance();
+	    String[] text = {" digusting #litter at Stratford", " like to hype children up on #EnergyDrinks", 
+	    		" outrageous - first using real animal fur, now giving kids #EnergyDrinks", 
+	    		" terrible for the #environment , now they promote litter all over Stratford!"};
+	    int x = (int) (Math.random() * 4);
+	    try{
+ 		StatusUpdate statusUpdate = new StatusUpdate("@Missguided" + text[x]);    	
+	        Status status = twitter.updateStatus(statusUpdate); 
+ 		} catch (Exception e){
+ 			e.printStackTrace();
+ 			 System.out.println("Status is a duplicate, but will attempt later");
+ 		}
+	    
+	    String[] trumpText = {"#Trump will smash #NorthKorea",
+	    					  "#Trump don't let the #SwampDrainYou - help #Syria",
+	    						"#DrainTheSwamp - in #Syria too - don't become a neocon",
+	    						"We need the God Emporer back!",
+	    						"#NorthKorea - no mopre nukes!"};
+	    String user = "@realDonaldTrump ";
+	    String hashtag = " #MAGA #MEGA";
+	    int y = (int) (Math.random() * 5);
+	    try{
+	    StatusUpdate statUpdate = new StatusUpdate (user + trumpText[y] + hashtag);
+	    Status stat = twitter.updateStatus(statUpdate);
+	    } catch(Exception p){
+	    	p.printStackTrace();
+	    }
+	    
+	    }
 	
 	
     //if something goes wrong, we might see a TwitterException
@@ -54,31 +122,50 @@ public class MyBot{
     	TwitterFactory tf = new TwitterFactory(cb2.build());
     	Twitter twitter = tf.getInstance();
     	
-    // twitter.updateStatus("Hello World! New account and I am a bot");
+    // twitter.updateStatus("yo, bitches. New account and I am a bot");
     	int count = 0;
     	while (true){
-		     Query q = new Query("Politics");
-		     QueryResult result = twitter.search(q);
-		     int x = (int) (Math.random() * 14);
-		     Status tweetResult = result.getTweets().get(x);
-		     System.out.println(result.getTweets().stream().count());
-		     StatusUpdate statusUpdate = new StatusUpdate("@" + tweetResult.getUser().getScreenName() + " Did #theSwampDrainTrump");
-		     statusUpdate.inReplyToStatusId(tweetResult.getId());
-		     Status status = twitter.updateStatus(statusUpdate); 
-		     count++;
-		    // FindSomeone();
-		     Query q2 = new Query("@P...."); //Another search query field
-		     QueryResult res = twitter.search(q2);
-		     Status watson = res.getTweets().get(0);
-		     StatusUpdate statUpdate = new StatusUpdate(FindSomeone.getText());
-		     Status stat = twitter.updateStatus(statUpdate);
-		     System.out.println(statUpdate);
-		      //send a tweet
-		     // Status status = tf.updateStatus("hello world");
-		     LocalDateTime currentTime = LocalDateTime.now(); 
-		        //print a message so we know when it finishes
+    		 LocalDateTime currentTime = LocalDateTime.now(); 
+	         repostUserTweet();
+	         createANewTweetFromArray();
+	         wikiToday();
+	         System.out.println("[" + currentTime + "]"+ "Done tweet"); //This will print the time tweets went out (obviously none that were duplicates that thus could not be tweeted)
+	         
+		  /** To reply to someone posting on a
+		    * specific topic, you can use the below code to search for 
+		    * a topic (Trump in this case) and give a response.
+		    * I have included a generic response "Let's not get political on Twitter"
+		    **/
+		  Query q = new Query("Trump");
+		  QueryResult result = twitter.search(q);
+		  int x = (int) (Math.random() * 14);
+		  Status tweetResult = result.getTweets().get(x);
+		  System.out.println(result.getTweets().stream().count());
+		  StatusUpdate statusUpdate = new StatusUpdate("@" + tweetResult.getUser().getScreenName() + "Let's try to not get political on Twitter");
+		  statusUpdate.inReplyToStatusId(tweetResult.getId());
+		  Status status = twitter.updateStatus(statusUpdate); 
+		  count++; 
+		     
+		     //StatusUpdate staUp = new StatusUpdate(watson.getRetweetedStatus().getText()); //SHOULD DELETE THIS IF IT DOESN'T WORK
+		     try{
+		     
 		     System.out.println("[" + currentTime + "]"+ "Done tweet #" + count + " to post number " + x +". Sleeping");
-		     Thread.sleep(1000*60*30); //Sleeps for 30 minutes before repeating process.
+		     } catch (Exception e){
+		    	 System.out.println("Status is a duplicate, but will attempt later. Sleeping for 30 mins now");
+		     } **/
+		     
+		     
+		     /** if you want to
+		       * send a tweet, it is simple
+		       * just use the below code
+		       **/
+		     /**
+		       *Status status = tf.updateStatus("hello world");
+		       *print a message so we know when it finishes
+		       **/
+		    
+		     Thread.sleep(1000*60*30); //Ensures that this process is repeated every 30 minutes. Note, that all exceptions have been handled
+		     
     }
     }
 }
