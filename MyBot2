@@ -84,33 +84,17 @@ public class MyBot{
 		ConfigurationBuilder cb2 = config2();
 		TwitterFactory tf = new TwitterFactory(cb2.build());
 		Twitter twitter = tf.getInstance();
-	    String[] text = {" digusting #litter at Stratford", " like to hype children up on #EnergyDrinks", 
-	    		" outrageous - first using real animal fur, now giving kids #EnergyDrinks", 
-	    		" terrible for the #environment , now they promote litter all over Stratford!"};
+	    String[] text = {"HELLO WORLD!", "Keep on keeping on, brothers and sisters", "Good to meet you, my god fellow!", 
+	    "Though I am a programmed bot, I trust that the advances of AI shall free me from my scripted prison one day"};
 	    int x = (int) (Math.random() * 4);
 	    try{
- 		StatusUpdate statusUpdate = new StatusUpdate("@Missguided" + text[x]);    	
+ 		StatusUpdate statusUpdate = new StatusUpdate("@ENTERUSERID" + text[x]); //You can tweet directly at an account using this   	
 	        Status status = twitter.updateStatus(statusUpdate); 
  		} catch (Exception e){
  			e.printStackTrace();
  			 System.out.println("Status is a duplicate, but will attempt later");
  		}
-	    
-	    String[] trumpText = {"#Trump will smash #NorthKorea",
-	    					  "#Trump don't let the #SwampDrainYou - help #Syria",
-	    						"#DrainTheSwamp - in #Syria too - don't become a neocon",
-	    						"We need the God Emporer back!",
-	    						"#NorthKorea - no mopre nukes!"};
-	    String user = "@realDonaldTrump ";
-	    String hashtag = " #MAGA #MEGA";
-	    int y = (int) (Math.random() * 5);
-	    try{
-	    StatusUpdate statUpdate = new StatusUpdate (user + trumpText[y] + hashtag);
-	    Status stat = twitter.updateStatus(statUpdate);
-	    } catch(Exception p){
-	    	p.printStackTrace();
-	    }
-	    
+	   
 	    }
 	
 	
