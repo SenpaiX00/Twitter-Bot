@@ -106,7 +106,7 @@ public class MyBot{
     	TwitterFactory tf = new TwitterFactory(cb2.build());
     	Twitter twitter = tf.getInstance();
     	
-    // twitter.updateStatus("yo, bitches. New account and I am a bot");
+    // twitter.updateStatus("yo. New account and I am a bot");
     	int count = 0;
     	while (true){
     		 LocalDateTime currentTime = LocalDateTime.now(); 
